@@ -1,0 +1,36 @@
+syntax="proto3";
+
+//  type = "double" | "float" | "int32" | "int64" | "uint32" | "uint64"
+//      | "sint32" | "sint64" | "fixed32" | "fixed64" | "sfixed32" | "sfixed64"
+//      | "bool" | "string" | "bytes" | messageType | enumType
+// maps: map<string, Project> projects = 3;
+package driver;
+
+import "google/protobuf/any.proto";
+import "google/protobuf/empty.proto";
+import "google/protobuf/timestamp.proto";
+import "google/protobuf/duration.proto";
+import "google/protobuf/field_mask.proto";
+import "github.com/gogo/protobuf/gogoproto/gogo.proto";
+
+option go_package = "github.com/gofunct/cflags/driver;flag";
+
+// Enable custom Marshal method.
+option (gogoproto.marshaler_all) = true;
+// Enable custom Unmarshal method.
+option (gogoproto.unmarshaler_all) = true;
+// Enable custom Size method (Required by Marshal and Unmarshal).
+option (gogoproto.sizer_all) = true;
+// Enable registration with golang/protobuf for the grpc-gateway.
+option (gogoproto.goproto_registration) = true;
+// Enable generation of XXX_MessageName methods for grpc-go/status.
+option (gogoproto.messagename_all) = true;
+
+message Flag {
+    string name = 1;
+    string default = 2;
+    string usage = 3;
+    map<string, string> annotations =5;
+    repeated string configs = 6;
+    repeated google.protobuf.Any value =7;
+}
