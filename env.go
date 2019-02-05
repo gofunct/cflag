@@ -11,7 +11,7 @@ type EnvMap struct {
 	Key       string
 	Separator string
 	Defaults  map[string]string
-	Values    map[string]string
+	Value     map[string]string
 	Texts     []string
 }
 
@@ -20,15 +20,15 @@ func (fv *EnvMap) Name() string {
 }
 
 func (fv *EnvMap) ValueString() string {
-	return goreflect.ValueKindOf(fv.Values)
+	return fmt.Sprintf("%s", fv.Value)
 }
 
 func (fv *EnvMap) ValueType() string {
-	return goreflect.ValueKindOf(fv.Values)
+	return goreflect.ValueTypeOf(fv.Value)
 }
 
 func (fv *EnvMap) HasChanged() bool {
-	return reflect.DeepEqual(fv.Defaults, fv.Values)
+	return reflect.DeepEqual(fv.Defaults, fv.Value)
 }
 
 // Help returns a string suitable for inclusion in a flag help message.
@@ -51,10 +51,10 @@ func (fv *EnvMap) Set(v string) error {
 		return fmt.Errorf(`"%s" must have the form KEY%sVALUE`, v, separator)
 	}
 	fv.Texts = append(fv.Texts, v)
-	if fv.Values == nil {
-		fv.Values = make(map[string]string)
+	if fv.Value == nil {
+		fv.Value = make(map[string]string)
 	}
-	fv.Values[v[:i]] = v[i+len(separator):]
+	fv.Value[v[:i]] = v[i+len(separator):]
 	return nil
 }
 

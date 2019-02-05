@@ -1,30 +1,38 @@
 package cflag
 
 import (
+	"fmt"
+	"github.com/gofunct/goreflect"
 	"net/url"
+	"reflect"
 	"strings"
 )
 
 // URL is a `flag.Value` for `url.URL` arguments.
 type URL struct {
-	Value *url.URL
-	Text  string
+	Var     string
+	Default *url.URL
+	Value   *url.URL
+	Text    string
 }
 
 func (fv *URL) HasChanged() bool {
-	panic("implement me")
+	if reflect.DeepEqual(fv.Default, fv.Value) {
+		return true
+	}
+	return false
 }
 
 func (fv *URL) Name() string {
-	panic("implement me")
+	return fv.Var
 }
 
 func (fv *URL) ValueString() string {
-	panic("implement me")
+	return fmt.Sprintf("%s", fv.Value)
 }
 
 func (fv *URL) ValueType() string {
-	panic("implement me")
+	return goreflect.ValueTypeOf(fv.Value)
 }
 
 // Help returns a string suitable for inclusion in a flag help message.
@@ -48,24 +56,29 @@ func (fv *URL) String() string {
 
 // URLs is a `flag.Value` for `url.URL` arguments.
 type URLs struct {
-	Values []*url.URL
-	Texts  []string
+	Var     string
+	Default []*url.URL
+	Value   []*url.URL
+	Texts   []string
 }
 
 func (fv *URLs) HasChanged() bool {
-	panic("implement me")
+	if reflect.DeepEqual(fv.Default, fv.Value) {
+		return true
+	}
+	return false
 }
 
 func (fv *URLs) Name() string {
-	panic("implement me")
+	return fv.Var
 }
 
 func (fv *URLs) ValueString() string {
-	panic("implement me")
+	return fmt.Sprintf("%s", fv.Value)
 }
 
 func (fv *URLs) ValueType() string {
-	panic("implement me")
+	return goreflect.ValueTypeOf(fv.Value)
 }
 
 // Help returns a string suitable for inclusion in a flag help message.
@@ -78,7 +91,7 @@ func (fv *URLs) Set(v string) error {
 	u, err := url.Parse(v)
 	if err == nil {
 		fv.Texts = append(fv.Texts, v)
-		fv.Values = append(fv.Values, u)
+		fv.Value = append(fv.Value, u)
 	}
 	return err
 }

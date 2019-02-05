@@ -1467,25 +1467,11 @@ func Implements(this interface{}, that interface{}) bool {
 	}
 }
 
-// typeIs returns true if the src is the type named in target.
-func TypeIs(target string, src interface{}) bool {
-	return target == TypeOf(src)
+func ValueTypeMatches(target string, src interface{}) bool {
+	return target == ValueTypeOf(src)
 }
 
-func TypeIsLike(target string, src interface{}) bool {
-	t := TypeOf(src)
-	return target == t || "*"+target == t
-}
-
-func TypeOf(src interface{}) string {
-	return fmt.Sprintf("%T", src)
-}
-
-func ValueKindIs(target string, src interface{}) bool {
-	return target == ValueKindOf(src)
-}
-
-func ValueKindOf(src interface{}) string {
+func ValueTypeOf(src interface{}) string {
 	return reflect.ValueOf(src).Kind().String()
 }
 
@@ -2002,7 +1988,7 @@ func ToDictionary(v ...interface{}) map[string]interface{} {
 	return dict
 }
 
-func MergeMap(dst map[string]interface{}, srcs ...map[string]interface{}) interface{} {
+func MergeDict(dst map[string]interface{}, srcs ...map[string]interface{}) interface{} {
 	for _, src := range srcs {
 		if err := mergo.Merge(&dst, src); err != nil {
 			// Swallow errors inside of a template.
@@ -2012,11 +1998,65 @@ func MergeMap(dst map[string]interface{}, srcs ...map[string]interface{}) interf
 	return dst
 }
 
-func MapValues(dict map[string]interface{}) []interface{} {
+func MapDict(dict map[string]interface{}) []interface{} {
 	values := []interface{}{}
 	for _, value := range dict {
 		values = append(values, value)
 	}
 
 	return values
+}
+
+func DictValues(dict map[string]interface{}) []interface{} {
+	values := []interface{}{}
+	for _, value := range dict {
+		values = append(values, value)
+	}
+
+	return values
+}
+
+func DictInterfaceMatches(dict1 map[string]interface{}, dict2 map[string]interface{}) bool {
+	// m1 and m2 are the maps we want to compare
+	eq := reflect.DeepEqual(dict1, dict2)
+	if eq {
+		return true
+	}
+	return false
+}
+
+func DictStringMatches(dict1 map[string]string, dict2 map[string]string) bool {
+	// m1 and m2 are the maps we want to compare
+	eq := reflect.DeepEqual(dict1, dict2)
+	if eq {
+		return true
+	}
+	return false
+}
+
+func DictStringSliceMatches(dict1 map[string][]string, dict2 map[string][]string) bool {
+	// m1 and m2 are the maps we want to compare
+	eq := reflect.DeepEqual(dict1, dict2)
+	if eq {
+		return true
+	}
+	return false
+}
+
+func DictBoolMatches(dict1 map[string]bool, dict2 map[string]bool) bool {
+	// m1 and m2 are the maps we want to compare
+	eq := reflect.DeepEqual(dict1, dict2)
+	if eq {
+		return true
+	}
+	return false
+}
+
+func StringSliceMatches(s1 []string, s2 []string) bool {
+	// m1 and m2 are the maps we want to compare
+	eq := reflect.DeepEqual(s1, s2)
+	if eq {
+		return true
+	}
+	return false
 }

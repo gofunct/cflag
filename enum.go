@@ -2,6 +2,7 @@ package cflag
 
 import (
 	"fmt"
+	"github.com/gofunct/goreflect"
 	"sort"
 	"strings"
 )
@@ -10,27 +11,31 @@ import (
 // The value of the `Choices` field defines the valid choices.
 // If `CaseSensitive` is set to `true` (default `false`), the comparison is case-sensitive.
 type Enum struct {
+	Var           string
 	Choices       []string
 	CaseSensitive bool
-
-	Value string
-	Text  string
+	Default       string
+	Value         string
+	Text          string
 }
 
 func (fv *Enum) HasChanged() bool {
-	panic("implement me")
+	if fv.Default != fv.Value {
+		return true
+	}
+	return false
 }
 
 func (fv *Enum) Name() string {
-	panic("implement me")
+	return fv.Var
 }
 
 func (fv *Enum) ValueString() string {
-	panic("implement me")
+	return fmt.Sprintf("%s", fv.Value)
 }
 
 func (fv *Enum) ValueType() string {
-	panic("implement me")
+	return goreflect.ValueTypeOf(fv.Value)
 }
 
 // Help returns a string suitable for inclusion in a flag help message.
@@ -65,23 +70,28 @@ func (fv *Enum) String() string {
 // The value of the `Choices` field defines the valid choices.
 // If `CaseSensitive` is set to `true` (default `false`), the comparison is case-sensitive.
 type Enums struct {
+	Var           string
 	Choices       []string
 	CaseSensitive bool
-
-	Values []string
-	Texts  []string
+	Default       []string
+	Value         []string
+	Texts         []string
 }
 
 func (fv *Enums) HasChanged() bool {
-	panic("implement me")
+	if goreflect.StringSliceMatches(fv.Default, fv.Value) {
+		return true
+	}
+	return false
+
 }
 
 func (fv *Enums) Name() string {
-	panic("implement me")
+	return fv.Var
 }
 
 func (fv *Enums) ValueString() string {
-	panic("implement me")
+	return fmt.Sprintf("%s", fv.Value)
 }
 
 func (fv *Enums) ValueType() string {
@@ -104,7 +114,7 @@ func (fv *Enums) Set(v string) error {
 	}
 	for _, c := range fv.Choices {
 		if equal(c, v) {
-			fv.Values = append(fv.Values, c)
+			fv.Value = append(fv.Value, c)
 			fv.Texts = append(fv.Texts, v)
 			return nil
 		}
@@ -202,27 +212,31 @@ func (fv *EnumsCSV) String() string {
 // The value of the `Choices` field defines the valid choices.
 // If `CaseSensitive` is set to `true` (default `false`), the comparison is case-sensitive.
 type EnumSet struct {
+	Var           string
 	Choices       []string
 	CaseSensitive bool
-
-	Value map[string]bool
-	Texts []string
+	Default       map[string]bool
+	Value         map[string]bool
+	Texts         []string
 }
 
 func (fv *EnumSet) HasChanged() bool {
-	panic("implement me")
+	if goreflect.DictBoolMatches(fv.Default, fv.Value) {
+		return true
+	}
+	return false
 }
 
 func (fv *EnumSet) Name() string {
-	panic("implement me")
+	return fv.Var
 }
 
 func (fv *EnumSet) ValueString() string {
-	panic("implement me")
+	return fmt.Sprintf("%s", fv.Value)
 }
 
 func (fv *EnumSet) ValueType() string {
-	panic("implement me")
+	return goreflect.ValueTypeOf(fv.Value)
 }
 
 // Help returns a string suitable for inclusion in a flag help message.
@@ -278,29 +292,33 @@ func (fv *EnumSet) String() string {
 // The `Separator` field is used instead of the comma when set.
 // If `CaseSensitive` is set to `true` (default `false`), the comparison is case-sensitive.
 type EnumSetCSV struct {
+	Var           string
 	Choices       []string
 	Separator     string
 	Accumulate    bool
 	CaseSensitive bool
-
-	Value map[string]bool
-	Texts []string
+	Default       map[string]bool
+	Value         map[string]bool
+	Texts         []string
 }
 
 func (fv *EnumSetCSV) HasChanged() bool {
-	panic("implement me")
+	if goreflect.DictBoolMatches(fv.Default, fv.Value) {
+		return true
+	}
+	return false
 }
 
 func (fv *EnumSetCSV) Name() string {
-	panic("implement me")
+	return fv.Var
 }
 
 func (fv *EnumSetCSV) ValueString() string {
-	panic("implement me")
+	return fmt.Sprintf("%s", fv.Value)
 }
 
 func (fv *EnumSetCSV) ValueType() string {
-	panic("implement me")
+	return goreflect.ValueTypeOf(fv.Value)
 }
 
 // Help returns a string suitable for inclusion in a flag help message.

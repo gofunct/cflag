@@ -15,7 +15,7 @@ github.com/gobwas/glob/syntax/ast
 github.com/gobwas/glob/util/runes
 github.com/gobwas/glob/syntax/lexer
 github.com/gobwas/glob/util/strings
-# github.com/gofunct/goreflect v0.0.0-20190205000447-1a42f0b95ecf
+# github.com/gofunct/goreflect v0.0.0-20190205024305-ec907e282128
 github.com/gofunct/goreflect
 # github.com/google/go-cmp v0.2.0
 github.com/google/go-cmp/cmp

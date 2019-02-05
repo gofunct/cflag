@@ -1,6 +1,10 @@
 package cflag
 
-import "fmt"
+import (
+	"fmt"
+	"github.com/gofunct/goreflect"
+	"reflect"
+)
 
 import (
 	htemplate "html/template"
@@ -10,26 +14,30 @@ import (
 // Template is a `flag.Value` for `text.Template` arguments.
 // The value of the `Root` field is used as a root template when specified.
 type Template struct {
-	Root *template.Template
-
-	Value *template.Template
-	Text  string
+	Var     string
+	Root    *template.Template
+	Default *template.Template
+	Value   *template.Template
+	Text    string
 }
 
 func (fv *Template) HasChanged() bool {
-	panic("implement me")
+	if reflect.DeepEqual(fv.Default, fv.Value) {
+		return true
+	}
+	return false
 }
 
 func (fv *Template) Name() string {
-	panic("implement me")
+	return fv.Var
 }
 
 func (fv *Template) ValueString() string {
-	panic("implement me")
+	return fmt.Sprintf("%s", fv.Value)
 }
 
 func (fv *Template) ValueType() string {
-	panic("implement me")
+	return goreflect.ValueTypeOf(fv.Value)
 }
 
 // Help returns a string suitable for inclusion in a flag help message.
@@ -89,26 +97,30 @@ func (fv *Templates) String() string {
 // HTMLTemplates is a `flag.Value` for `text.Template` arguments.
 // The value of the `Root` field is used as a root template when specified.
 type HTMLTemplates struct {
-	Root *htemplate.Template
-
-	Values []*htemplate.Template
-	Texts  []string
+	Var     string
+	Root    *htemplate.Template
+	Default *htemplate.Template
+	Value   []*htemplate.Template
+	Texts   []string
 }
 
 func (fv *HTMLTemplates) HasChanged() bool {
-	panic("implement me")
+	if reflect.DeepEqual(fv.Default, fv.Value) {
+		return true
+	}
+	return false
 }
 
 func (fv *HTMLTemplates) Name() string {
-	panic("implement me")
+	return fv.Var
 }
 
 func (fv *HTMLTemplates) ValueString() string {
-	panic("implement me")
+	return fmt.Sprintf("%s", fv.Value)
 }
 
 func (fv *HTMLTemplates) ValueType() string {
-	panic("implement me")
+	return goreflect.ValueTypeOf(fv.Value)
 }
 
 // Help returns a string suitable for inclusion in a flag help message.
@@ -125,7 +137,7 @@ func (fv *HTMLTemplates) Set(v string) error {
 	t, err := root.New(fmt.Sprintf("%T(%p)", fv, fv)).Parse(v)
 	if err == nil {
 		fv.Texts = append(fv.Texts, v)
-		fv.Values = append(fv.Values, t)
+		fv.Value = append(fv.Value, t)
 	}
 	return err
 }
