@@ -4,15 +4,11 @@ import (
 	"bufio"
 	"context"
 	"fmt"
-	"github.com/gofunct/cflag/driver"
+	"github.com/gofunct/cflag/api/driver"
 	"google.golang.org/grpc/metadata"
 	"google.golang.org/grpc"
 	"os"
 )
-
-type Client struct {
-	
-}
 
 func (d *Client) Prompt(prompt string) string {
 	reader := bufio.NewReader(os.Stdin)
@@ -21,12 +17,23 @@ func (d *Client) Prompt(prompt string) string {
 	return text
 }
 
+type Client struct {
+	
+}
+
+func (c *Client) Shutdown(ctx context.Context, in *driver.Empty, opts ...grpc.CallOption) (*driver.Empty, error) {
+	panic("implement me")
+}
+
+func (c *Client) StartStream(ctx context.Context, opts ...grpc.CallOption) (driver.GRPCBroker_StartStreamClient, error) {
+	panic("implement me")
+}
 
 func (c *Client) Signup(ctx context.Context, in *driver.User, opts ...grpc.CallOption) (driver.GoCloud_SignupClient, error) {
 	if ctx.Err() != nil {
 		return nil, ctx.Err()
 	}
-	in.Email = c.P
+	return nil, nil
 }
 
 func (*Client) Login(ctx context.Context, in *driver.User, opts ...grpc.CallOption) (driver.GoCloud_LoginClient, error) {
@@ -41,10 +48,6 @@ func (*Client) Execute(ctx context.Context, in *driver.ExecRequest, opts ...grpc
 	panic("implement me")
 }
 
-func (*Client) Recv() (*driver.DebugResponse, error) {
-	panic("implement me")
-}
-
 func (*Client) Header() (metadata.MD, error) {
 	panic("implement me")
 }
@@ -54,17 +57,5 @@ func (*Client) Trailer() metadata.MD {
 }
 
 func (*Client) CloseSend() error {
-	panic("implement me")
-}
-
-func (*Client) Context() context.Context {
-	panic("implement me")
-}
-
-func (*Client) SendMsg(m interface{}) error {
-	panic("implement me")
-}
-
-func (*Client) RecvMsg(m interface{}) error {
 	panic("implement me")
 }

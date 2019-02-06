@@ -65,7 +65,7 @@ message DebugResponse {
   repeated Usage usage =1;
 }
 
-service GoCloud {
+service Driver {
     rpc Signup(User) returns (stream Info) {};
     rpc Login(User) returns (stream Info) {};
     rpc Debug(DebugRequest) returns (stream DebugResponse) {};

@@ -2,17 +2,26 @@ package flagserver
 
 import (
 	"context"
-	"github.com/gofunct/cflag/driver"
+	"github.com/gofunct/cflag/api/driver"
 	"google.golang.org/grpc/metadata"
 )
+
+func NewCflag() *Server {
+	return &Server{}
+}
 
 type Server struct {
 	
 }
 
-func NewCflag() *Server {
-	return &Server{}
+func (*Server) Shutdown(context.Context, *driver.Empty) (*driver.Empty, error) {
+	panic("implement me")
 }
+
+func (*Server) StartStream(driver.GRPCBroker_StartStreamServer) error {
+	panic("implement me")
+}
+
 
 func (*Server) Signup(*driver.User, driver.GoCloud_SignupServer) error {
 	panic("implement me")
@@ -47,16 +56,3 @@ func (*Server) SendHeader(metadata.MD) error {
 func (*Server) SetTrailer(metadata.MD) {
 	panic("implement me")
 }
-
-func (*Server) Context() context.Context {
-	panic("implement me")
-}
-
-func (*Server) SendMsg(m interface{}) error {
-	panic("implement me")
-}
-
-func (*Server) RecvMsg(m interface{}) error {
-	panic("implement me")
-}
-
