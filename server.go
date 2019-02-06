@@ -1,11 +1,9 @@
 package cflag
 
 import (
-	"context"
 	"github.com/gofunct/cflag/api/driver"
 )
 
-type ServerShutdownFunc func(context.Context, *driver.Empty) (*driver.Empty, error)
 type ServerStreamFunc func(driver.GRPCBroker_StartStreamServer) error
 type ServerSignUpFunc func(*driver.User, driver.Driver_SignupServer) error
 type ServerLoginFunc func(*driver.User, driver.Driver_LoginServer) error
@@ -15,7 +13,6 @@ type ServerExecFunc func(*driver.ExecRequest, driver.Driver_ExecuteServer) error
 type ServerWrapperFunc func(s *Server)
 
 type Server struct {
-	ShutdownFunc      ServerShutdownFunc
 	StreamFunc        ServerStreamFunc
 	SignUpFunc        ServerSignUpFunc
 	LoginFunc         ServerLoginFunc
