@@ -25,6 +25,10 @@ func NewServer() *Server {
 	return &Server{}
 }
 
+func (s *Server) StartStream(d driver.GRPCBroker_StartStreamServer) error {
+	return s.StreamFunc(d)
+}
+
 func (s *Server) Signup(r *driver.User, w driver.Driver_SignupServer) error {
 	return s.SignUpFunc(r, w)
 }
