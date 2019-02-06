@@ -3,7 +3,6 @@ package cflag
 import (
 	"context"
 	"github.com/gofunct/cflag/api/driver"
-	"google.golang.org/grpc/metadata"
 )
 
 type ServerShutdownFunc func(context.Context, *driver.Empty) (*driver.Empty, error)
@@ -18,10 +17,10 @@ type ServerWrapperFunc func(s *Server)
 type Server struct {
 	ShutdownFunc      ServerShutdownFunc
 	StreamFunc        ServerStreamFunc
-	SignUpFunc        SignUpFunc
+	SignUpFunc        ServerSignUpFunc
 	LoginFunc         ServerLoginFunc
 	DebugFunc         ServerDebugFunc
-	ExecFunc          ExecFunc
+	ExecFunc          ServerExecFunc
 	ServerWrapperFunc ServerWrapperFunc
 }
 
