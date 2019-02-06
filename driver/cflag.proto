@@ -6,31 +6,68 @@ syntax="proto3";
 // maps: map<string, Project> projects = 3;
 package driver;
 
-import "google/protobuf/any.proto";
-import "google/protobuf/empty.proto";
-import "google/protobuf/timestamp.proto";
-import "google/protobuf/duration.proto";
-import "google/protobuf/field_mask.proto";
-import "github.com/gogo/protobuf/gogoproto/gogo.proto";
+enum Command {
+    TERRAFORM = 0;
+    KUBECTL = 1;
+    GCLOUD = 2;
+}
 
-option go_package = "github.com/gofunct/cflags/driver;flag";
+enum Mode {
+    DEV = 0;
+    PROD =1;
+}
 
-// Enable custom Marshal method.
-option (gogoproto.marshaler_all) = true;
-// Enable custom Unmarshal method.
-option (gogoproto.unmarshaler_all) = true;
-// Enable custom Size method (Required by Marshal and Unmarshal).
-option (gogoproto.sizer_all) = true;
-// Enable registration with golang/protobuf for the grpc-gateway.
-option (gogoproto.goproto_registration) = true;
-// Enable generation of XXX_MessageName methods for grpc-go/status.
-option (gogoproto.messagename_all) = true;
+enum Role {
+    GUEST = 0;
+    MEMBER = 1;
+    ADMIN = 2;
+}
 
-message Flag {
-    string name = 1;
-    string default = 2;
-    string usage = 3;
-    map<string, string> annotations =5;
-    repeated string configs = 6;
-    repeated google.protobuf.Any value =7;
+message Script {
+    Command command =1;
+    repeated string args =2;
+    map<string, string> env =3;
+    Usage usage =4;
+}
+
+message Usage {
+    map<string, string> usage = 1;
+}
+
+message ExecRequest {
+     User user =1;
+     Mode mode =2;
+    repeated Script scripts =3;
+}
+
+message User {
+    string id =1;
+    string user =2;
+    string email =3;
+    string password =4;
+    string phone =5;
+    Role role =6;
+}
+
+message Info {
+    repeated string text =1;
+}
+
+message Bytes {
+    bytes resp = 1;
+}
+
+message DebugRequest {
+    User user =1;
+}
+
+message DebugResponse {
+  repeated Usage usage =1;
+}
+
+service GoCloud {
+    rpc Signup(User) returns (stream Info) {};
+    rpc Login(User) returns (stream Info) {};
+    rpc Debug(DebugRequest) returns (stream DebugResponse) {};
+    rpc Execute(ExecRequest) returns(stream Bytes) {};
 }
