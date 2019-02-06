@@ -1,20 +1,23 @@
 package cflag
 
 import (
+	"context"
 	"github.com/gofunct/cflag/api/driver"
 	"google.golang.org/grpc"
-	"google.golang.org/grpc/metadata"
-	"context"
 )
 
+type ClientSignUpFunc func(ctx context.Context, in *driver.User, opts ...grpc.CallOption) (driver.Driver_SignupClient, error)
+type ClientLoginFunc func(ctx context.Context, in *driver.User, opts ...grpc.CallOption) (driver.Driver_LoginClient, error)
+type ClientDebugFunc func(ctx context.Context, in *driver.DebugRequest, opts ...grpc.CallOption) (driver.Driver_DebugClient, error)
+type ClientExecFunc func(ctx context.Context, in *driver.ExecRequest, opts ...grpc.CallOption) (driver.Driver_ExecuteClient, error)
+type ClientWrapperFunc func(s *Client)
+
 type Client struct {
-	SignUpFunc func(ctx context.Context, in *driver.User, opts ...grpc.CallOption) (driver.Driver_SignupClient, error)
-	LoginFunc func(ctx context.Context, in *driver.User, opts ...grpc.CallOption) (driver.Driver_LoginClient, error)
-	DebugFunc func(ctx context.Context, in *driver.DebugRequest, opts ...grpc.CallOption) (driver.Driver_DebugClient, error)
-	DebugRcvFunc func() (*driver.DebugResponse, error)
-	ExecFunc func(ctx context.Context, in *driver.ExecRequest, opts ...grpc.CallOption) (driver.Driver_ExecuteClient, error)
-	HeaderFunc func() (metadata.MD, error)
-	TrailerFunc func() metadata.MD
+	SignUpFunc  ClientSignUpFunc
+	LoginFunc   ClientLoginFunc
+	DebugFunc   ClientDebugFunc
+	ExecFunc    ClientExecFunc
+	WrapperFunc ClientWrapperFunc
 }
 
 func NewClient() *Client {

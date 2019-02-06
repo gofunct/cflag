@@ -11,7 +11,6 @@ func NewCflag() *Server {
 }
 
 type Server struct {
-	
 }
 
 func (*Server) Shutdown(context.Context, *driver.Empty) (*driver.Empty, error) {
@@ -21,7 +20,6 @@ func (*Server) Shutdown(context.Context, *driver.Empty) (*driver.Empty, error) {
 func (*Server) StartStream(driver.GRPCBroker_StartStreamServer) error {
 	panic("implement me")
 }
-
 
 func (*Server) Signup(*driver.User, driver.GoCloud_SignupServer) error {
 	panic("implement me")
@@ -39,11 +37,9 @@ func (*Server) Execute(*driver.ExecRequest, driver.GoCloud_ExecuteServer) error 
 	panic("implement me")
 }
 
-
 func (*Server) Send(*driver.Info) error {
 	panic("implement me")
 }
-
 
 func (*Server) SetHeader(metadata.MD) error {
 	panic("implement me")

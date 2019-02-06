@@ -6,17 +6,23 @@ import (
 	"google.golang.org/grpc/metadata"
 )
 
+type ServerShutdownFunc func(context.Context, *driver.Empty) (*driver.Empty, error)
+type ServerStreamFunc func(driver.GRPCBroker_StartStreamServer) error
+type ServerSignUpFunc func(*driver.User, driver.Driver_SignupServer) error
+type ServerLoginFunc func(*driver.User, driver.Driver_LoginServer) error
+type ServerDebugFunc func(*driver.DebugRequest, driver.Driver_DebugServer) error
+type ServerExecFunc func(*driver.ExecRequest, driver.Driver_ExecuteServer) error
+
+type ServerWrapperFunc func(s *Server)
+
 type Server struct {
-	ShutdownFunc func(context.Context, *driver.Empty) (*driver.Empty, error)
-	StreamFunc func(driver.GRPCBroker_StartStreamServer) error
-	SignUpFunc func(*driver.User, driver.Driver_SignupServer) error
-	LoginFunc func(*driver.User, driver.Driver_LoginServer) error
-	DebugFunc func(*driver.DebugRequest, driver.Driver_DebugServer) error
-	ExecFunc func(*driver.ExecRequest, driver.Driver_ExecuteServer) error
-	SendFunc func(*driver.Info) error
-	SetHeaderFunc func(metadata.MD) error
-	HeaderFunc func(metadata.MD) error
-	TrailerFunc func(metadata.MD)
+	ShutdownFunc      ServerShutdownFunc
+	StreamFunc        ServerStreamFunc
+	SignUpFunc        SignUpFunc
+	LoginFunc         ServerLoginFunc
+	DebugFunc         ServerDebugFunc
+	ExecFunc          ExecFunc
+	ServerWrapperFunc ServerWrapperFunc
 }
 
 func NewServer() *Server {

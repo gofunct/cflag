@@ -5,8 +5,8 @@ import (
 	"context"
 	"fmt"
 	"github.com/gofunct/cflag/api/driver"
-	"google.golang.org/grpc/metadata"
 	"google.golang.org/grpc"
+	"google.golang.org/grpc/metadata"
 	"os"
 )
 
@@ -18,7 +18,6 @@ func (d *Client) Prompt(prompt string) string {
 }
 
 type Client struct {
-	
 }
 
 func (c *Client) Shutdown(ctx context.Context, in *driver.Empty, opts ...grpc.CallOption) (*driver.Empty, error) {
