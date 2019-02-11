@@ -22,8 +22,12 @@ github.com/fsnotify/fsnotify v1.4.7 h1:IXs+QLmnXW2CcXuY+8Mzv/fWEsPGWxqefPtCP5CnV
 github.com/fsnotify/fsnotify v1.4.7/go.mod h1:jwhsz4b93w/PPRr/qN1Yymfu8t87LnFCMoQvtojpjFo=
 github.com/gofunct/gocfg v0.0.0-20190211212950-0859d0cbc70c h1:KbCKNBty/NNmw4zSAg9RRTfrhLPPQjHSHwudlBtIxmQ=
 github.com/gofunct/gocfg v0.0.0-20190211212950-0859d0cbc70c/go.mod h1:UbB6723JMpUgzqiwXpjNQ22gek4XRJNG0vD2KttiW+o=
+github.com/gofunct/gocfg v0.0.0-20190211224653-2a4f9baa7329 h1:pgzR8bbMzAXFVYuxY930qViSg0oapzna930DPTR1H/c=
+github.com/gofunct/gocfg v0.0.0-20190211224653-2a4f9baa7329/go.mod h1:tKmP8SeOQScL4obskuNJRLQZhenr/nONYdN4Yzu2OFU=
 github.com/gofunct/lg v0.0.0-20190211160313-a032f7d7c89c h1:cTlmHPOgInDJGp0Bnx2H0U7yF9V2335FcBW0XNICdFs=
 github.com/gofunct/lg v0.0.0-20190211160313-a032f7d7c89c/go.mod h1:IPPhyMhWHnpqZljxGuUUqcwwrVUc2YN+le+JsMSEUto=
+github.com/gofunct/lg v0.0.0-20190211224322-b5bc557ba5c4 h1:CkUlUmNAsvRcpDhMQ1N+mAxGZNANkkoGTDGCVfLKAns=
+github.com/gofunct/lg v0.0.0-20190211224322-b5bc557ba5c4/go.mod h1:IPPhyMhWHnpqZljxGuUUqcwwrVUc2YN+le+JsMSEUto=
 github.com/gogo/googleapis v1.1.0 h1:kFkMAZBNAn4j7K0GiZr8cRYzejq68VbheufiV3YuyFI=
 github.com/gogo/googleapis v1.1.0/go.mod h1:gf4bu3Q80BeJ6H1S1vYPm8/ELATdvryBaNFGgqEef3s=
 github.com/gogo/protobuf v1.2.0 h1:xU6/SpYbvkNYiptHJYEDRseDLvYE7wSqhYYNy0QSUzI=
