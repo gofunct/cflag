@@ -17,9 +17,10 @@ message Flag {
     string help =2;
     string configPath =3 ;
     bool required =4 ;
-    string typestr =5;
-    google.protobuf.Any value =6;
-    string text = 7 ;
+    string default =5;
+    string typestr =6;
+    google.protobuf.Any value =7;
+    string text = 8;
 }
 
 

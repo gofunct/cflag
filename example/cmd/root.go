@@ -17,7 +17,6 @@ package cmd
 import (
 	"fmt"
 	"github.com/gofunct/cflag"
-	"github.com/gofunct/cflag/flag"
 	"os"
 
 	"github.com/mitchellh/go-homedir"
@@ -53,18 +52,7 @@ func Execute() {
 
 func init() {
 	cobra.OnInitialize(initConfig)
-	dl := cflag.Download{
-		Cflag: &flag.Cflag{
-			Flag:    &flag.Flag{
-				Key:        "download",
-				Help:      "download a remote directory or file to destination path",
-				ConfigPath: ".",
-				Required:   true,
-			},
-		},
-		Dest:  "helloworld/helloworld.txt",
-	}
-	dl.Init()
+	dl := cflag.NewDownloadVar("github.com/gofunct/cflag/example//helloworld.txt", "helloworld/helloworld.txt")
 	rootCmd.PersistentFlags().Var(dl, dl.GetKey(), dl.GetHelp())
 	// Here you will define your flags and configuration settings.
 	// Cobra supports persistent flags, which, if defined here,
