@@ -14,10 +14,10 @@ option (gogoproto.messagename_all) = true;
 
 message Flag {
     string key =1 ;
-    string hellp =2;
+    string help =2;
     string configPath =3 ;
     bool required =4 ;
-    string default =5;
+    string typestr =5;
     google.protobuf.Any value =6;
     string text = 7 ;
 }

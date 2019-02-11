@@ -2,7 +2,6 @@ package flag
 
 import (
 	"github.com/spf13/pflag"
-	"reflect"
 )
 
 type CFLAG interface {
@@ -25,7 +24,7 @@ func (this *Cflag) FlagSet(set *pflag.FlagSet) {
 }
 
 func (this *Flag) Type() string {
-	return reflect.TypeOf(this.Value).String()
+	return this.Typestr
 }
 
 
@@ -34,5 +33,5 @@ func (this *Flag) Name() string {
 }
 
 func (this *Flag) Usage() string {
-	return this.GetHellp()
+	return this.GetHelp()
 }

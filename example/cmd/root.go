@@ -20,7 +20,7 @@ import (
 	"github.com/gofunct/cflag/flag"
 	"os"
 
-	homedir "github.com/mitchellh/go-homedir"
+	"github.com/mitchellh/go-homedir"
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
 )
@@ -57,20 +57,19 @@ func init() {
 		Cflag: &flag.Cflag{
 			Flag:    &flag.Flag{
 				Key:        "download",
-				Hellp:      "download a remote directory or file to destination path",
+				Help:      "download a remote directory or file to destination path",
 				ConfigPath: ".",
 				Required:   true,
-				Default:    "github.com/gofunct/cflag/example//helloworld.txt",
 			},
 		},
-		Dest:  "helloworld",
+		Dest:  "helloworld/helloworld.txt",
 	}
 	dl.Init()
+	rootCmd.PersistentFlags().Var(dl, dl.GetKey(), dl.GetHelp())
 	// Here you will define your flags and configuration settings.
 	// Cobra supports persistent flags, which, if defined here,
 	// will be global for your application.
 	rootCmd.PersistentFlags().StringVar(&cfgFile, "config", "", "config file (default is $HOME/.example.yaml)")
-	rootCmd.PersistentFlags().Var(dl, dl.GetKey(), dl.GetHellp())
 	// Cobra also supports local flags, which will only run
 	// when this action is called directly.
 	rootCmd.Flags().BoolP("toggle", "t", false, "Help message for toggle")
