@@ -11,8 +11,8 @@ import (
 type Script struct {
 	Key   string
 	Help  string
-	Dir  string
-	Env  map[string]string
+	Dir   string
+	Env   map[string]string
 	Value string
 	Text  string
 }
@@ -25,8 +25,8 @@ func (s *Script) Set(script string) error {
 	s.Text = script
 	cmd := exec.Command("bash", "-c", script)
 	if cmd.Env != nil {
-		for k, v := range  s.Env {
-			_ =os.Setenv(strings.ToUpper(k), v)
+		for k, v := range s.Env {
+			_ = os.Setenv(strings.ToUpper(k), v)
 		}
 	}
 	cmd.Env = os.Environ()
@@ -53,4 +53,3 @@ func (s *Script) Name() string {
 func (s *Script) Usage() string {
 	return s.Help
 }
-

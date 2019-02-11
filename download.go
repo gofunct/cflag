@@ -2,7 +2,6 @@ package cflag
 
 import (
 	"context"
-	"github.com/gofunct/cflag/flag"
 	"github.com/gofunct/cflag/util"
 	"github.com/hashicorp/go-getter"
 	"github.com/pkg/errors"
@@ -14,9 +13,22 @@ import (
 )
 
 type Download struct {
-	*flag.Flag
+	Name    string
+	Usage   string
+	Default string
+	val     string
+	Dest    string
+}
 
-	Dest  string
+func (d *Download) String() string {
+	if d.val == "" {
+		return d.Default
+	}
+	return d.val
+}
+
+func (d *Download) Type() string {
+	return "urlString"
 }
 
 func (d *Download) Set(s string) error {
@@ -24,26 +36,26 @@ func (d *Download) Set(s string) error {
 }
 
 func (d *Download) FlagSet(set *pflag.FlagSet) {
-	set.Var(d, d.GetKey(), d.GetHelp())
+	set.Var(d, d.Name, d.Usage)
 }
 
-func NewDownloadVar(dfault string, dest string) *Download{
+func NewDownloadVar(name string, dfault string, dest string, usage string) *Download {
 	d := &Download{
-			Flag:    &flag.Flag{
-				Key:        "load",
-				Help:       "download a file or repository from git, s3, or http",
-				Required:   false,
-				Default:    dfault,
-				Typestr:    "string",
-				Text:       "",
-			},
-		Dest:  dest,
+		Name:    name,
+		Usage:   usage,
+		Default: dfault,
+		Dest:    dest,
 	}
 	return d
 }
 
 func InitLoad(d *Download) func(s string) error {
+
 	return func(s string) error {
+		if s == "" {
+			s = d.Default
+		}
+		d.val = s
 		pwd, err := os.Getwd()
 		if err != nil {
 			return errors.Wrapf(err, "Error getting wd: %s", pwd)
