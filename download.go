@@ -32,7 +32,7 @@ func (d *Download) Type() string {
 }
 
 func (d *Download) Set(s string) error {
-	return InitLoad(d)(s)
+	return initLoad(d)(s)
 }
 
 func (d *Download) FlagSet(set *pflag.FlagSet) {
@@ -49,7 +49,7 @@ func NewDownloadVar(name string, dfault string, dest string, usage string) *Down
 	return d
 }
 
-func InitLoad(d *Download) func(s string) error {
+func initLoad(d *Download) func(s string) error {
 
 	return func(s string) error {
 		if s == "" {
