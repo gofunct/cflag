@@ -1,10 +1,11 @@
-proto: ## generate all protobufs in api/
-	@cd api/driver;protoc -I . cflag.proto --go_out=plugins=grpc:.
-	@cd api/driver;protoc -I . broker.proto --go_out=plugins=grpc:.
-	@cd api/driver;protoc -I . controller.proto --go_out=plugins=grpc:.
+protoc:
+	protoc \
+		-I flag \
+		-I vendor/ \
+		-I vendor/github.com/gogo/googleapis/ \
+		-I vendor/github.com/lyft/protoc-gen-validate \
+		--gogoslick_out=Mgoogle/protobuf/any.proto=github.com/gogo/protobuf/types:flag flag/cflag.proto
 
 install:
-	@cd cflag; go install .
-
-help:   ## show this help
-	@fgrep -h "##" $(MAKEFILE_LIST) | fgrep -v fgrep | sed -e 's/\\$$//' | sed -e 's/##//'
+	go install \
+		./vendor/github.com/gogo/protobuf/protoc-gen-gogo \
